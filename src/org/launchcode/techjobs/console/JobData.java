@@ -1,4 +1,5 @@
-package org.launchcode.techjobs.console;
+
+        package org.launchcode.techjobs.console;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -7,10 +8,9 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-
+import java.util.ArrayList;
 /**
  * Created by LaunchCode
  */
@@ -75,6 +75,8 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            aValue = aValue.toLowerCase();
+            value = value.toLowerCase();
 
             if (aValue.contains(value)) {
                 jobs.add(row);
@@ -84,12 +86,28 @@ public class JobData {
         return jobs;
     }
 
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+        loadData();
+//Method or getting detail information out of hashmap thought a array
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs) {
+            for (Map.Entry<String, String> job : row.entrySet()) {
+                //get keys from column for string
+                if (job.getValue().toUpperCase().contains(value) && !jobs.contains(row)) {
+                    jobs.add(row);
+                }
+
+            }
+        }
+
+        return jobs;
+    }
     /**
      * Read in data from a CSV file and store it in a list
      */
     private static void loadData() {
 
-        // Only load data once
+        // Only load data oncec
         if (isDataLoaded) {
             return;
         }

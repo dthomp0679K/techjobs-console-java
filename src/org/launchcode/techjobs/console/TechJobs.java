@@ -1,8 +1,11 @@
-package org.launchcode.techjobs.console;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+        package org.launchcode.techjobs.console;
+//new chnages
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by LaunchCode
@@ -61,13 +64,41 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    //printJobs(JobData.findAll());
+                    printJobs(JobData.findByValue(searchTerm.toUpperCase()));
+                    // all fields not yet implemented.");
+                    //printJobs(searchAll(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
             }
         }
     }
+
+    //private static ArrayList<HashMap<String, String>> searchAll(String searchTerm ) {
+
+    //get all the jobs, once
+    //ArrayList<HashMap<String, String>> alljobs = JobData.findAll();
+    //get the first item and get the keys, in case they change
+    //HashMap<String, String> singleJob = alljobs.get(0);
+    //get the keys
+    //List<String> columns = new ArrayList<>();
+    // for (String key: singleJob.keySet()){
+    //columns.add(key);
+    //}
+
+    //Set<HashMap<String, String>> foundJobList = new LinkedHashSet<>();
+
+    //for (String singleChoice : columns) {
+    // List<HashMap<String, String>> shortList = alljobs.stream().filter(job -> job.get(singleChoice).toLowerCase().contains(searchTerm.toLowerCase())).collect(Collectors.toList());
+    //foundJobList.addAll(shortList);
+    // }
+
+
+    // ArrayList<HashMap<String, String>> foundJobs = new ArrayList<>(foundJobList.size());
+    // foundJobs.addAll(foundJobList);
+    //  return foundJobs;
+    // }
 
     // ﻿Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
@@ -111,6 +142,19 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        for (HashMap<String, String> jobs: someJobs) {
+            System.out.println("****************");
+
+            for (HashMap.Entry<String, String> i: jobs.entrySet()) {
+                System.out.println(i.getKey() + " : " + i.getValue());
+            }
+            System.out.println("****************");
+            System.out.println("\n");
+        }
+
+        if (someJobs.isEmpty()) {
+            System.out.println("Job not found");
+        }
+
     }
 }
